@@ -63,6 +63,7 @@ def crowdWarning(p, r, warn, t) {
 
 In this simulation of the 2013 Vienna Marathon, dots represent devices running the crowd safety service.
 Red dots are devices in locations with potentially dangerous crowd density and yellow dots are devices providing crowd density warnings.
+For more information on the dataset, please refer to [this paper](https://doi.org/10.1007/978-3-319-03260-3_18).
 
 ![Crowd Management]({{ 'assets/media/images/examples/ieeecomputer2015crowdtracking/crowd-management.jpg' | asset }})
 
