@@ -3,10 +3,10 @@
 # Alchemist simulator user guide
 
 - [Understand](understand.md)
-  - [Aggregate programming basics](understand/basics.md)
+  - [Language basics](understand/syntax.md)
+  - [Aggregate primitives](understand/primitives.md)
+  - [Protelis Lang library](understand/library.md)
   - [Protelis' architecture](understand/architecture.md)
-  - [Syntax](understand/syntax.md)
-  - [Upgrade guide](understand/syntax.md)
 - [Use](use.md)
   - [Prerequisites](use/installation.md)
   - [Tutorial: simulation with Alchemist](use/alchemist.md)
