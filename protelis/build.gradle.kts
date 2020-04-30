@@ -226,13 +226,14 @@ repositories {
 dependencies {
     api(project(":protelis-interpreter"))
     api(project(":protelis-lang"))
-    orchidRuntime("io.github.javaeden.orchid:OrchidEditorial:+")
-    orchidRuntime("io.github.javaeden.orchid:OrchidBsDoc:_")
-    orchidRuntime("io.github.javaeden.orchid:OrchidPluginDocs:_")
-    orchidRuntime("io.github.javaeden.orchid:OrchidSearch:_")
-    orchidRuntime("io.github.javaeden.orchid:OrchidSyntaxHighlighter:_")
-    orchidRuntime("io.github.javaeden.orchid:OrchidWiki:_")
-    orchidRuntime("io.github.javaeden.orchid:OrchidGithub:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidEditorial:+")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidBsDoc:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidPluginDocs:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidSearch:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidSyntaxHighlighter:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidWiki:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidWritersBlocks:_")
+    orchidRuntimeOnly("io.github.javaeden.orchid:OrchidGithub:_")
 }
 
 val isMarkedStable by lazy { """\d+(\.\d+){2}""".toRegex().matches(rootProject.version.toString()) }
