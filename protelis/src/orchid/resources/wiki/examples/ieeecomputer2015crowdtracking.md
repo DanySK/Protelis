@@ -4,7 +4,8 @@ protelis_version: 0.8.3
 paper_title: "Aggregate Programming for the Internet of Things"
 paper_authors: "Jacob Beal, Danilo Pianini, and Mirko Viroli"
 paper_venue: "IEEE Computer"
-doi: "10.1109/MC.2015.261"
+doi:
+  - "10.1109/MC.2015.261"
 ---
 
 **Note:** This example uses Protelis version {{ protelis_version }}, while current version is {{ site.version }}.
@@ -69,3 +70,5 @@ For more information on the dataset, please refer to [this paper](https://doi.or
 
 In this simulation of public events near the Boston waterfront, dots represent devices running the crowd safety service.
 Red dots are devices in locations with potentially dangerous crowd density and yellow dots are devices providing crowd density warnings.
+
+{% youtube id='606ObQwQuaE' start='0:5' aspectRatio='18:10' %}
