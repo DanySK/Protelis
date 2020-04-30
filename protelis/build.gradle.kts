@@ -1,32 +1,25 @@
-@file:Suppress("UnstableApiUsage")
-
-import com.github.spotbugs.SpotBugsTask
 import com.jfrog.bintray.gradle.tasks.BintrayUploadTask
 import java.net.URL
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
-    id("de.fayard.buildSrcVersions") version
-        Versions.de_fayard_buildsrcversions_gradle_plugin
-    id("org.danilopianini.git-sensitive-semantic-versioning") version
-        Versions.org_danilopianini_git_sensitive_semantic_versioning_gradle_plugin
+    id("org.danilopianini.git-sensitive-semantic-versioning")
     eclipse
     `java-library`
     jacoco
-    id("com.github.spotbugs") version Versions.com_github_spotbugs_gradle_plugin
+    id("com.github.spotbugs")
     pmd
     checkstyle
-    id("org.jlleitschuh.gradle.ktlint") version Versions.org_jlleitschuh_gradle_ktlint_gradle_plugin
+    id("org.jlleitschuh.gradle.ktlint")
     signing
     `maven-publish`
-    id("org.danilopianini.publish-on-central") version Versions.org_danilopianini_publish_on_central_gradle_plugin
-    id("com.jfrog.bintray") version Versions.com_jfrog_bintray_gradle_plugin
-    id("com.gradle.build-scan") version Versions.com_gradle_build_scan_gradle_plugin
-    id("org.jetbrains.kotlin.jvm") version Versions.org_jetbrains_kotlin_jvm_gradle_plugin
-    id("com.eden.orchidPlugin") version Versions.com_eden_orchidplugin_gradle_plugin
+    id("com.eden.orchidPlugin")
+    id("org.danilopianini.publish-on-central")
+    id("org.protelis.protelisdoc")
+    id("com.jfrog.bintray")
+    kotlin("jvm")
 }
 
-apply(plugin = "com.gradle.build-scan")
 apply(plugin = "com.jfrog.bintray")
 apply(plugin = "com.eden.orchidPlugin")
 
@@ -49,6 +42,7 @@ allprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "org.danilopianini.publish-on-central")
     apply(plugin = "com.jfrog.bintray")
+    apply(plugin = "org.protelis.protelisdoc")
 
     gitSemVer {
         version = computeGitSemVer()
@@ -56,16 +50,21 @@ allprojects {
 
     repositories {
         mavenCentral()
-        maven(url = "https://dl.bintray.com/kotlin/dokka/")
+        maven {
+            url = uri("https://dl.bintray.com/kotlin/dokka")
+            content {
+                includeGroup("org.jetbrains.dokka")
+            }
+        }
     }
 
     val doclet by configurations.creating
     dependencies {
-        compileOnly(Libs.spotbugs_annotations)
-        testImplementation(Libs.junit)
-        testImplementation(Libs.slf4j_api)
-        testRuntimeOnly(Libs.logback_classic)
-        doclet(Libs.apiviz)
+        compileOnly("com.github.spotbugs:spotbugs-annotations:_")
+        testImplementation("junit:junit:_")
+        testImplementation("org.slf4j:slf4j-api:_")
+        testRuntimeOnly("ch.qos.logback:logback-classic:_")
+        doclet("org.jboss.apiviz:apiviz:_")
     }
 
     tasks.withType<JavaCompile> {
@@ -81,18 +80,16 @@ allprojects {
     }
 
     spotbugs {
-        effort = "max"
-        reportLevel = "low"
-        val excludeFile = File("${project.rootProject.projectDir}/config/spotbugs/excludes.xml")
-        if (excludeFile.exists()) {
-            excludeFilterConfig = project.resources.text.fromFile(excludeFile)
-        }
+        setEffort("max")
+        setReportLevel("low")
+        File("${project.rootProject.projectDir}/config/spotbugs/excludes.xml")
+            .takeIf { it.exists() }
+            ?.also { excludeFilter.set(it) }
     }
 
-    tasks.withType<SpotBugsTask> {
-        reports {
-            xml.isEnabled = false
-            html.isEnabled = true
+    tasks.spotbugsMain {
+        reports.create("html") {
+            isEnabled = true
         }
     }
 
@@ -230,12 +227,12 @@ dependencies {
     api(project(":protelis-interpreter"))
     api(project(":protelis-lang"))
     orchidRuntime("io.github.javaeden.orchid:OrchidEditorial:+")
-    orchidRuntime(Libs.orchidbsdoc)
-    orchidRuntime(Libs.orchidplugindocs)
-    orchidRuntime(Libs.orchidsearch)
-    orchidRuntime(Libs.orchidsyntaxhighlighter)
-    orchidRuntime(Libs.orchidwiki)
-    orchidRuntime(Libs.orchidgithub)
+    orchidRuntime("io.github.javaeden.orchid:OrchidBsDoc:_")
+    orchidRuntime("io.github.javaeden.orchid:OrchidPluginDocs:_")
+    orchidRuntime("io.github.javaeden.orchid:OrchidSearch:_")
+    orchidRuntime("io.github.javaeden.orchid:OrchidSyntaxHighlighter:_")
+    orchidRuntime("io.github.javaeden.orchid:OrchidWiki:_")
+    orchidRuntime("io.github.javaeden.orchid:OrchidGithub:_")
 }
 
 val isMarkedStable by lazy { """\d+(\.\d+){2}""".toRegex().matches(rootProject.version.toString()) }
@@ -323,11 +320,6 @@ tasks.register<Jar>("fatJar") {
     }
     with(tasks.jar.get() as CopySpec)
     dependsOn(subprojects.flatMap { it.tasks.withType<Jar>() })
-}
-
-buildScan {
-    termsOfServiceUrl = "https://gradle.com/terms-of-service"
-    termsOfServiceAgree = "yes"
 }
 
 /*

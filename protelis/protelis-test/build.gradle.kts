@@ -1,12 +1,12 @@
 dependencies {
-    api(Libs.junit)
+    api("junit:junit:_")
     api(project(":protelis-interpreter"))
-    implementation(Libs.alchemist_interfaces) {
+    implementation("it.unibo.alchemist:alchemist-interfaces:_") {
         exclude(module = "asm-debug-all")
     }
-    implementation(Libs.alchemist_loading) {
+    implementation("it.unibo.alchemist:alchemist-loading:_") {
         exclude(module = "asm-debug-all")
     }
-    implementation(Libs.commons_lang3)
-    implementation(Libs.classgraph)
+    implementation("org.apache.commons:commons-lang3:_")
+    implementation("io.github.classgraph:classgraph:_")
 }
