@@ -1,6 +1,6 @@
 ---
-components:
-#  - type: 'readme'
+papers:
+    - 10.1145/2695664.2695913
 ---
 
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -39,7 +39,18 @@ Protelis is a programming language which can be used *within* simulation framewo
 One of the nice things you get out of it is that, if the simulation implementation respects the reference,
 the code written for a simulation can be reused as-is inside a deployed system.
 
-# Who uses it? The Protelis community
+# Who uses it?
+
+## Scientific works using Protelis
+
+Have you used Protelis in your scientific project or paper?
+Please contact us for getting included in this list!
+
+{% for doi in papers %}
+* {{ doi }}
+{% endfor %}
+
+## The Protelis community
 
 ### Alma Mater Studiorum—Università di Bologna (Italy)
 
